@@ -1,14 +1,15 @@
 // This calculator is built as a part of my application for Founders and Coders bootcamp (London) FAC19
 
-let formulaArray = ["2", "+", "2", "*", '10']
+let formulaArray = ["2", "+", "2", "*", '10', "+", "10", "+", ["1", "+", "3"], "*", "14", "-", ["1", "+", ["1", "+", "3"], "-", "3"], "+", "2", "*", "8.8", "+", "2", "**", "2"]
+// let formulaArray = ["2", "**", "2"]
 
+
+
+// ================================
 // First create own eval() function
+// ================================
 
-// Please Excuse My Dear Aunt Sally
-// 1. Parentheses
-// 2. Exponents
-// 3. Multiplication and Division (from left to right)
-// 4. Addition and Subtraction (from left to right)
+
 
 // create a handleExponents function
 function handleExponents(val, exp) {
@@ -35,43 +36,6 @@ function minus(val1, val2) {
     return val1 - val2;
 }
 
-// evaluate the formula
-
-// function evaluate(formula) {
-//     // loop over the array 
-//     for (let i = 0; i < formulaArray.length; i++) {
-//         // if there are Parentheses - evaluate them first ( if there are Parentheses inside they need to be evaluated first)
-//         // evaluate the result using provided function. Use substring to work on two numbers only each time (including negative numbers if applicable)
-//         // return the result of the evaluation in the place of the Parentheses () - use splice or substring
-
-//         // if there are exponents evaluate them as second priority
-//         // evaluate the result using provided function. Use substring to work on two numbers only each time (including negative numbers if applicable)
-//         // return the result of the evaluation in the place of the Parentheses () - use splice or substring
-
-//         // if there are Multiplication and Division evaluate them from left to right
-//         if (formula[i] === '*' || formula[i] === '/') {
-//             // evaluate the result using provided function. Use splice to work on two numbers only each time (including negative numbers if applicable)
-//             let left = Number(formula[i - 1]);
-//             let right = Number(formula[i + 1]);
-//             let result = (formula[i] === '*') ? multiply(left, right) : divide(left, right)
-//             // return the result of the evaluation in the place of the Parentheses () - use splice or substring
-//             formula.splice(i - 1, 3, result);
-//             break;
-//         }
-//         // if there are Addition and Subtraction evaluate them from left to right
-//         if (formula[i] === '+' || formula[i] === '-') {
-//             // evaluate the result using provided function. Use splice to work on two numbers only each time (including negative numbers if applicable)
-//             let left = Number(formula[i - 1]);
-//             let right = Number(formula[i + 1]);
-//             let result = (formula[i] === '+') ? add(left, right) : minus(left, right)
-//             // return the result of the evaluation in the place of the Parentheses () - use splice or substring
-//             formula.splice(i - 1, 3, result);
-//             break;
-//         }
-//     }
-
-//     return formula;
-// }
 
 function calculateSection(formula, operator1, operator2, function1, function2) {
 
@@ -81,7 +45,7 @@ function calculateSection(formula, operator1, operator2, function1, function2) {
             // evaluate the result using provided function. Use splice to work on two numbers only each time (including negative numbers if applicable)
             let left = Number(formula[i - 1]);
             let right = Number(formula[i + 1]);
-            let result = (formula[i] === '*') ? function1(left, right) : function2(left, right)
+            let result = (formula[i] === operator1) ? function1(left, right) : function2(left, right);
             // return the result of the evaluation in the place of the Parentheses () - use splice or substring
             formula.splice(i - 1, 3, result);
             break;
@@ -91,15 +55,37 @@ function calculateSection(formula, operator1, operator2, function1, function2) {
 }
 
 function evaluate(formula) {
-
+    // evaluate formula in a given order 
+    // Please Excuse My Dear Aunt Sally
+    // recursion stop
+    if (formula.length === 1) return;
+    //  1. Parentheses
+    if (formula.filter(elem => typeof elem === 'object')) {
+        let parenthesesFormula = formula.filter(elem => typeof elem === 'object');
+        parenthesesFormula.forEach(arr => arr.length > 1 ? evaluate(arr) : arr.toString())
+    }
+    // 2. Exponents
+    if (formula.includes('**')) {
+        calculateSection(formula, '**', null, handleExponents, null);
+    }
+    // 3. Multiplication and Division (from left to right)
     if (formula.includes('*') || formula.includes('/')) {
         calculateSection(formula, '*', '/', multiply, divide);
     }
+    // 4. Addition and Subtraction (from left to right)
     if (formula.includes('+') || formula.includes('-')) {
         calculateSection(formula, '+', '-', add, minus);
     }
+    evaluate(formula)
     return formula;
 }
 
 
 evaluate(formulaArray)
+
+
+
+// ================================
+// =Second - handle formula entry =
+// ================================
+
