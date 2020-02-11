@@ -1,7 +1,7 @@
 // This calculator is built as a part of my application for Founders and Coders bootcamp (London) FAC19
 
-let formulaArray = ["2", "+", "2", "*", '10', "+", "10", "+", ["1", "+", "3"], "*", "14", "-", ["1", "+", ["1", "+", "3"], "-", "3"], "+", "2", "*", "8.8", "+", "2", "**", "2"]
-// let formulaArray = ["2", "**", "2"]
+// let formulaArray = ["2", "+", "2", "*", '10', "+", "10", "+", ["1", "+", "3"], "*", "14", "-", ["1", "+", ["1", "+", "3"], "-", "3"], "+", "2", "*", "8.8", "+", "2", "^", "2"]
+let formulaArray = [];
 
 
 
@@ -65,8 +65,8 @@ function evaluate(formula) {
         parenthesesFormula.forEach(arr => arr.length > 1 ? evaluate(arr) : arr.toString())
     }
     // 2. Exponents
-    if (formula.includes('**')) {
-        calculateSection(formula, '**', null, handleExponents, null);
+    if (formula.includes('^')) {
+        calculateSection(formula, '^', null, handleExponents, null);
     }
     // 3. Multiplication and Division (from left to right)
     if (formula.includes('*') || formula.includes('/')) {
@@ -81,7 +81,7 @@ function evaluate(formula) {
 }
 
 
-evaluate(formulaArray)
+// evaluate(formulaArray)
 
 
 
@@ -89,3 +89,4 @@ evaluate(formulaArray)
 // =Second - handle formula entry =
 // ================================
 
+console.log(current_value)

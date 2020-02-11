@@ -1,3 +1,9 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+
 #calculator {
     display: grid;
     grid-template-columns: 50px 50px 50px 50px;
@@ -15,6 +21,8 @@
 
 #display {
     grid-area: display;
+    display: flex;
+    flex-direction: column;
 }
 
 #exp {
