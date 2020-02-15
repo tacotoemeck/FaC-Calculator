@@ -1,14 +1,155 @@
-// This calculator is built as a part of my application for Founders and Coders bootcamp (London) FAC19
-
-// let formulaArray = ["2", "+", "2", "*", '10', "+", "10", "+", ["1", "+", "3"], "*", "14", "-", ["1", "+", ["1", "+", "3"], "-", "3"], "+", "2", "*", "8.8", "+", "2", "^", "2"]
-let formulaArray = [];
-
+const buttons = document.querySelectorAll('button');
+const numberButtons = document.querySelectorAll('.number');
+const operatorButtons = document.querySelectorAll('.operator');
 
 
-// ================================
-// First create own eval() function
-// ================================
+buttons.forEach(button => {
+    button.style.gridArea = button.id;
+})
 
+numberButtons.forEach(button => {
+    button.addEventListener('click', enterNumber)
+})
+
+operatorButtons.forEach(button => {
+    button.addEventListener('click', enterOperator)
+})
+
+let currentFormula = [];
+let currentValue = [0];
+let currentValueType = 'number';
+
+// display functions
+
+function updateCurrentDisplay() {
+    display.innerText = currentValue;
+}
+
+function updateCurrentFormula() {
+
+    if (currentFormula == 0) {
+        currentFormula = [];
+    }
+    formulaDisplay.innerText = currentFormula.join('');
+}
+
+function clearDisplay() {
+    currentFormula = [];
+    currentValue = [0];
+    currentValueType = 'number';
+    updateCurrentDisplay()
+    updateCurrentFormula()
+}
+
+clear.addEventListener('click', clearDisplay);
+
+
+// button functions
+
+function enterNumber() {
+    if (currentValue.length == 0) {
+        return;
+    }
+
+    if (currentValue == '0') {
+        currentValue = this.innerText;
+        updateCurrentDisplay();
+        return;
+    }
+    if (currentValueType !== 'number') {
+        currentFormula.push(currentValue);
+        updateCurrentFormula()
+        currentValue = [];
+        currentValueType = 'number';
+    }
+    if (this.innerText == '.' && currentValue.includes('.')) {
+        return;
+    }
+    if (this.innerText == '0' && currentValue == '0') {
+        currentValue == [0];
+        return;
+    }
+
+    currentValue += this.innerText;
+    updateCurrentDisplay();
+
+}
+
+function enterOperator() {
+    if (currentValue == '0' && currentFormula.length == 0) return;
+    if (currentValue.length == 0) {
+        currentValue = this.innerText;
+        currentValueType = 'operator'
+        updateCurrentDisplay()
+        return;
+    }
+    if (currentValue == '-' && this.innerText == '-') return;
+
+    if (currentValueType == 'number' && currentValue == '-') {
+        currentFormula.pop()
+        updateCurrentFormula()
+        currentValue = this.innerText;
+        updateCurrentDisplay();
+        currentValueType = 'operator';
+        return;
+    }
+    if (currentValueType == 'operator') {
+        currentValue = this.innerText;
+        updateCurrentDisplay()
+        return;
+    };
+
+    if (currentValueType !== 'operator' && currentValue != '-') {
+        currentFormula.push(currentValue);
+        updateCurrentFormula();
+        currentValue = [];
+        currentValueType = 'operator';
+    }
+
+    currentValue += this.innerText;
+    updateCurrentDisplay();
+};
+
+function handleSubstract() {
+    if (currentValue == '-' && this.innerText == '-') return;
+
+    if (currentValueType == 'operator' && this.innerText == '-' || currentValue == 'empty') {
+        currentValue = currentValue.split('')
+        currentFormula.push(currentValue[0]);
+        updateCurrentFormula()
+        currentValue = this.innerText;
+        currentValueType = 'number';
+        updateCurrentDisplay();
+        return;
+    };
+
+    if (currentValueType == 'number') {
+        currentFormula.push(currentValue);
+        updateCurrentFormula();
+        currentValue = [];
+        currentValueType = 'operator';
+        currentValue += this.innerText;
+        updateCurrentDisplay();
+    };
+
+};
+
+subtract.addEventListener('click', handleSubstract);
+
+equals.addEventListener('click', function () {
+    console.log(currentFormula)
+    // calculateInOrder(currentFormula)
+    currentValue = evaluate(currentFormula)
+    updateCurrentDisplay()
+    // updateCurrentFormula();
+    currentFormula = [currentValue];
+
+
+    currentValue = [];
+    currentValueType = 'number';
+});
+
+// arythmetic
 
 
 // create a handleExponents function
@@ -55,6 +196,7 @@ function calculateSection(formula, operator1, operator2, function1, function2) {
 }
 
 function evaluate(formula) {
+    console.log(formula)
     // evaluate formula in a given order 
     // Please Excuse My Dear Aunt Sally
     // recursion stop
@@ -85,12 +227,5 @@ function validateDecimalCalculations(val) {
 }
 
 
-// evaluate(formulaArray)
-
-
-
-// ================================
-// =Second - handle formula entry =
-// ================================
-
-console.log(current_value)
+updateCurrentDisplay();
+updateCurrentFormula();

@@ -1,90 +1,182 @@
+body {
+    background: #457fca;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #5691c8, #457fca);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #5691c8, #457fca); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+}
+
 .container {
-    display: flex;
-    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+  
 }
 
-
-#calculator {
+.calculator {
+    
+    margin: auto;
+    margin-top: 25vh;
+    width: 400px;
+    height: 500px;
+    background-color: #0b0c10;
     display: grid;
-    grid-template-columns: 50px 50px 50px 50px;
-    grid-template-rows: 100px 50px 50px 50px 50px 50px 50px;
+    grid-template-columns: 100px 100px 100px 100px;
+    grid-template-rows: 80px;
     grid-template-areas: 
-      "display display display display"
-      ". . . ."
-      "exp left-parentheses right-parentheses divide"
-      "seven eight nine multiply"
-      "four five six minus"
-      "one two three plus"
-      "empty zero dot equals";
+    "display display display display"
+    "clear clear divide multiply"
+    "seven eight nine subtract"
+    "four five six add"
+    "one two three equals"
+    "zero zero decimal equals";
+
+    -webkit-box-shadow: 10px 10px 19px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 19px -6px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 19px -6px rgba(0,0,0,0.75);
+
+
 }
 
+.calculator button {
+    font-family: 'Roboto', sans-serif;
+    font-size: 3vh;
+    background-color: #1f2833;
+    border-color: #45a29e;
+    /* color: #c5c6c7; */
+    color: #45a29e;
+   
 
-#display {
+}
+
+button:hover {
+    -webkit-box-shadow: inset 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: inset 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: inset 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
+.display {
     grid-area: display;
     display: flex;
     flex-direction: column;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 35px;
+    background-color: #0b0c10;
+    border: 2px solid #45a29e;
+   
+    
+    color: #66fcf1;
+
+    
+}
+#formulaDisplay {
+    color: #d92921;
+    height: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    height: 39px;
+    line-height: 39px;
+
 }
 
-#exp {
-    grid-area: exp;
-}
-#left-parentheses {
-    grid-area: left-parentheses;
-}
-#right-parentheses {
-    grid-area: right-parentheses;
-}
-#divide {
-    grid-area: divide;
-}
-#seven {
-    grid-area: seven;
-}
-#eight {
-    grid-area: eight;
-}
-#nine {
-    grid-area: nine;
-}
-#multiply {
-    grid-area: multiply;
-}
-#four {
-    grid-area: four;
-}
-#five {
-    grid-area: five;
-}
-#six {
-    grid-area: six;
-}
-#minus {
-    grid-area: minus;
-}
-#one {
-    grid-area: one;
-}
-#two {
-    grid-area: two;
-}
-#three {
-    grid-area: three;
-}
-#plus {
-    grid-area: plus;
-}
-#empty {
-    grid-area: empty;
-}
-#zero {
-    grid-area: zero;
-}
-#dot {
-    grid-area: dot;
-}
-#equals {
-    grid-area: equals;
+#display {
+    height: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    height: 39px;
+    line-height: 39px;
 }
 
 
-
+.footerContent {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    justify-content: flex-end;
+    align-content: center;
+  
+  }
+  
+  
+  .footerContent a {
+    text-decoration: none;
+    color: white; 
+  }
+  
+  .contactlinks {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      display: inline-flex;
+      color: whitesmoke;
+      font-size: 2.5em;
+      justify-content: space-around;
+  
+  }
+  
+  .contactlinks a {
+      text-decoration: none;
+      color: white;
+      transition: .5s;
+  }
+  
+  
+  .contactlinks a:hover {
+    
+    animation: pulse 2s infinite;
+    
+  }
+    
+  @keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    }
+  
+  
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+  
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+  }
+  
+  .footerP {
+      margin-left: 50px;
+  }
+  
+  .footerEmail {
+      font-size: 1.5em;
+      text-align: center;
+  }
+  
+  .footerEmail:hover {
+      transform: scale(1.5);
+  }
+  
+  @media only screen and (max-width: 950px) {
+    .footerContent {
+        margin-top: 0px;
+        
+      }
+  
+      .contactlinks {
+        font-size: 1.5em;
+      
+    }
+  
+    .footerP {
+        font-size: 1.2em;
+    }
+  
+    .footerEmail {
+       
+        font-size: 1em;
+        text-align: center;
+    }
+  
+  }
