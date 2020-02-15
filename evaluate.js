@@ -1,7 +1,7 @@
 const buttons = document.querySelectorAll('button');
 const numberButtons = document.querySelectorAll('.number');
 const operatorButtons = document.querySelectorAll('.operator');
-
+const calculator = document.querySelector('.calculator');
 
 buttons.forEach(button => {
     button.style.gridArea = button.id;
@@ -46,13 +46,16 @@ clear.addEventListener('click', clearDisplay);
 
 // button functions
 
-function enterNumber() {
+function enterNumber(num) {
+    if (typeof num == 'object') {
+        num = this.innerText;
+    }
     if (currentValue.length == 0) {
         return;
     }
 
     if (currentValue == '0') {
-        currentValue = this.innerText;
+        currentValue = num;
         updateCurrentDisplay();
         return;
     }
@@ -62,39 +65,42 @@ function enterNumber() {
         currentValue = [];
         currentValueType = 'number';
     }
-    if (this.innerText == '.' && currentValue.includes('.')) {
+    if (num == '.' && currentValue.includes('.')) {
         return;
     }
-    if (this.innerText == '0' && currentValue == '0') {
+    if (num == '0' && currentValue == '0') {
         currentValue == [0];
         return;
     }
 
-    currentValue += this.innerText;
+    currentValue += num;
     updateCurrentDisplay();
 
 }
 
-function enterOperator() {
+function enterOperator(operator) {
+    if (typeof operator == 'object') {
+        operator = this.innerText;
+    }
     if (currentValue == '0' && currentFormula.length == 0) return;
     if (currentValue.length == 0) {
-        currentValue = this.innerText;
+        currentValue = operator;
         currentValueType = 'operator'
         updateCurrentDisplay()
         return;
     }
-    if (currentValue == '-' && this.innerText == '-') return;
+    if (currentValue == '-' && operator == '-') return;
 
     if (currentValueType == 'number' && currentValue == '-') {
         currentFormula.pop()
         updateCurrentFormula()
-        currentValue = this.innerText;
+        currentValue = operator;
         updateCurrentDisplay();
         currentValueType = 'operator';
         return;
     }
     if (currentValueType == 'operator') {
-        currentValue = this.innerText;
+        currentValue = operator;
         updateCurrentDisplay()
         return;
     };
@@ -106,7 +112,7 @@ function enterOperator() {
         currentValueType = 'operator';
     }
 
-    currentValue += this.innerText;
+    currentValue += operator;
     updateCurrentDisplay();
 };
 
@@ -137,14 +143,9 @@ function handleSubstract() {
 subtract.addEventListener('click', handleSubstract);
 
 equals.addEventListener('click', function () {
-    console.log(currentFormula)
-    // calculateInOrder(currentFormula)
     currentValue = evaluate(currentFormula)
     updateCurrentDisplay()
-    // updateCurrentFormula();
     currentFormula = [currentValue];
-
-
     currentValue = [];
     currentValueType = 'number';
 });
@@ -196,11 +197,16 @@ function calculateSection(formula, operator1, operator2, function1, function2) {
 }
 
 function evaluate(formula) {
-    console.log(formula)
+    if (!/[0-9]/.test(formula[0])) {
+        if (formula[0] == '-') {
+            formula[1] = `-${formula[1]}`
+        };
+        formula.shift();
+    }
     // evaluate formula in a given order 
     // Please Excuse My Dear Aunt Sally
     // recursion stop
-    if (formula.length === 1) return;
+    if (formula.length === 1) return formula;
     //  1. Parentheses
     if (formula.filter(elem => typeof elem === 'object')) {
         let parenthesesFormula = formula.filter(elem => typeof elem === 'object');
@@ -229,3 +235,69 @@ function validateDecimalCalculations(val) {
 
 updateCurrentDisplay();
 updateCurrentFormula();
+
+function handleKeys(e) {
+    console.log(e.key)
+    let number = "";
+    let operator = "";
+    if (e.keyCode >= 48 && e.keyCode <= 58) {
+        switch (e.keyCode) {
+            case 49:
+                number = '1';
+                break;
+            case 50:
+                number = '2';
+                break;
+            case 51:
+                number = '3';
+                break;
+            case 52:
+                number = '4';
+                break;
+            case 53:
+                number = '5';
+                break;
+            case 54:
+                number = '6';
+                break;
+            case 55:
+                number = '7';
+                break;
+            case 56:
+                number = '8';
+                break;
+            case 57:
+                number = '9';
+                break;
+            case 48:
+                number = '0';
+                break;
+        }
+        enterNumber(number)
+    }
+    if (e.keyCode >= 100 && e.keyCode <= 187) {
+        console.log('gaga')
+        switch (e.keyCode) {
+            case 187:
+                operator = '*';
+                break;
+            case 107:
+                operator = '+';
+                break;
+            case 109:
+                operator = '-';
+                break;
+            case 110:
+                operator = '.';
+                break;
+            case 111:
+                operator = '/';
+                break;
+        }
+        enterOperator(operator)
+    }
+}
+
+
+// handle keyboard entry
+document.addEventListener('keyup', handleKeys)
