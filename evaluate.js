@@ -80,6 +80,10 @@ function evaluate(formula) {
     return formula;
 }
 
+function validateDecimalCalculations(val) {
+
+}
+
 
 // evaluate(formulaArray)
 

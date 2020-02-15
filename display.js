@@ -25,15 +25,21 @@ function handleButtonClick(e) {
     let valueToSubmit = current_value.innerText.substring(0, current_value.innerText.length - 1);
     // prevent additional input once result is displayed
 
+
     if (currentInputType == 'number' && showingResult == true) {
         current_value.innerText = currentResult;
-
     };
+    //   handle power input and display
+    // if (currentInputType == 'power') {
+    //     valueToSubmit = validateInput(valueToSubmit);
+
+    // }
+    if (currentInputType == 'power' && lastFormulaChar == 'power') {
+        current_value.innerText = valueToSubmit;
+    }
     //   handle point (dot) input
     if (currentInputType == 'number' && this.innerText == '.') {
-
         if (current_value.innerText.split('').slice(0, current_value.innerText.length - 1).includes('.')) current_value.innerText = valueToSubmit;
-
     }
     // handle numbers and operators input
     if (
@@ -42,16 +48,21 @@ function handleButtonClick(e) {
         (currentInputType == 'number' && lastFormulaChar == 'operator')
     ) {
         if (showingResult == false) {
+
             valueToSubmit = validateInput(valueToSubmit);
-            formulaArray.push(valueToSubmit);
+            // if returned value is an array ( power ) spread the values at the end of the formula arrey, else push
+            if (typeof valueToSubmit == "object") {
+                formulaArray = [...formulaArray, ...valueToSubmit]
+            } else {
+                formulaArray.push(valueToSubmit);
+            }
+
             current_value.innerText = this.innerText;
         } else {
             current_value.innerText = this.innerText;
             showingResult = false;
         }
-
     }
-
     //   prevent more than 1 zero as a start of the input 
     if (currentInputType == 'number' && current_value.innerText[0] == 0) {
         current_value.innerText = this.innerText;
@@ -60,57 +71,73 @@ function handleButtonClick(e) {
     if (currentInputType == 'operator' && lastFormulaChar == 'operator') {
         current_value.innerText = this.innerText;
     }
-
     if (currentInputType == 'openParentheses') {
         // need to work it out!
     }
-
     if (currentInputType == 'equals') {
-        formulaArray.push(valueToSubmit);
-        let tempFormula = [...formulaArray];
-        currentResult = evaluate(tempFormula);
-        current_value.innerText = currentResult;
-        showingResult = true;
+        if (!showingResult) {
+            if (determineValueType(valueToSubmit) == "number") {
+                valueToSubmit = validateInput(valueToSubmit);
+                if (typeof valueToSubmit == "object") {
+                    formulaArray = [...formulaArray, ...valueToSubmit]
+                } else {
+                    formulaArray.push(valueToSubmit);
+                }
+            }
+            if (formulaArray.length <= 1) {
+                currentResult = formulaArray;
+                current_value.innerText = currentResult;
+                showingResult = true;
+                return;
+            };
+            let tempFormula = [...formulaArray];
+            currentResult = evaluate(tempFormula);
+            current_value.innerText = currentResult;
+            showingResult = true;
+        } else {
+            current_value.innerText = currentResult;
+        }
     }
-
     formulas_display.innerText = formulaArray.join('');
-
-}
+};
 
 // add click handler for each button
 allButtons.forEach(button => {
     button.addEventListener('click', handleButtonClick)
 })
 
-
-
 // determine value type
 function determineValueType(value) {
-    // if (value.charCodeAt(0) == 46) {
-    //     return "point";
-    // }
-    if (value.charCodeAt(0) >= 42 && value.charCodeAt(0) <= 47 && value.charCodeAt(0) != 46
-        || value.charCodeAt(0) === 94) {
-        return "operator"
-    }
 
+    if (value.charCodeAt(0) >= 42 && value.charCodeAt(0) <= 47) {
+        return "operator";
+    }
+    if (value.charCodeAt(0) == 94) {
+        return 'power';
+    }
     if (value.charCodeAt(0) == 40) {
-        return "openParentheses"
+        return "openParentheses";
     }
     if (value.charCodeAt(0) == 61) {
-        return "equals"
+        return "equals";
     }
     else {
-        return "number"
+        return "number";
     }
 }
 
 // validate input
 function validateInput(input) {
-    let validatedInput = '';
-    console.log(input)
-    // if input starts with a dot
 
+    let validatedInput = '';
+    // if input starts with a power
+    if (input.split('').includes("^")) {
+        // prevent power of an empty value, replace with zero if so
+        if (input[0] == "^") input = "0" + input;
+        // return an array
+        return input.split('');
+    };
+    // if input starts with a dot 
     if (input[0] == ".") validatedInput = `0${input}`;
 
     // if there's not value following dot
