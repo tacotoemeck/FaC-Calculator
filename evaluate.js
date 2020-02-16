@@ -5,15 +5,15 @@ const calculator = document.querySelector('.calculator');
 
 buttons.forEach(button => {
     button.style.gridArea = button.id;
-})
+});
 
 numberButtons.forEach(button => {
     button.addEventListener('click', enterNumber)
-})
+});
 
 operatorButtons.forEach(button => {
     button.addEventListener('click', enterOperator)
-})
+});
 
 let currentFormula = [];
 let currentValue = [0];
@@ -23,7 +23,7 @@ let currentValueType = 'number';
 
 function updateCurrentDisplay() {
     display.innerText = currentValue;
-}
+};
 
 function updateCurrentFormula() {
 
@@ -31,7 +31,7 @@ function updateCurrentFormula() {
         currentFormula = [];
     }
     formulaDisplay.innerText = currentFormula.join('');
-}
+};
 
 function clearDisplay() {
     currentFormula = [];
@@ -39,12 +39,13 @@ function clearDisplay() {
     currentValueType = 'number';
     updateCurrentDisplay()
     updateCurrentFormula()
-}
+};
 
 clear.addEventListener('click', clearDisplay);
 
-
+// ================
 // button functions
+// ================
 
 function enterNumber(num) {
     if (typeof num == 'object') {
@@ -71,14 +72,14 @@ function enterNumber(num) {
     if (num == '0' && currentValue == '0') {
         currentValue == [0];
         return;
-    }
-
+    };
     currentValue += num;
     updateCurrentDisplay();
 
-}
+};
 
 function enterOperator(operator) {
+
     if (typeof operator == 'object') {
         operator = this.innerText;
     }
@@ -116,25 +117,28 @@ function enterOperator(operator) {
     updateCurrentDisplay();
 };
 
-function handleSubstract() {
-    if (currentValue == '-' && this.innerText == '-') return;
+function handleSubstract(operator) {
+    if (typeof operator == 'object') {
+        operator = this.innerText;
+    }
+    if (currentValue == '-' && operator == '-') return;
 
-    if (currentValueType == 'operator' && this.innerText == '-' || currentValue == 'empty') {
-        currentValue = currentValue.split('')
+    if (currentValueType == 'operator' && operator == '-' || currentValue == 'empty') {
+        currentValue = currentValue.split('');
         currentFormula.push(currentValue[0]);
-        updateCurrentFormula()
-        currentValue = this.innerText;
+        updateCurrentFormula();
+        currentValue = operator;
         currentValueType = 'number';
         updateCurrentDisplay();
         return;
     };
 
     if (currentValueType == 'number') {
-        currentFormula.push(currentValue);
+        currentValue.length > 0 && currentFormula.push(currentValue);
         updateCurrentFormula();
         currentValue = [];
         currentValueType = 'operator';
-        currentValue += this.innerText;
+        currentValue += operator;
         updateCurrentDisplay();
     };
 
@@ -150,37 +154,32 @@ equals.addEventListener('click', function () {
     currentValueType = 'number';
 });
 
-// arythmetic
-
+// ==================
+// ====arythmetic====
+// ==================
 
 // create a handleExponents function
 function handleExponents(val, exp) {
     return Math.pow(val, exp);
 };
-
 // create a multiply function
 function multiply(val1, val2) {
     return val1 * val2;
 };
-
 // create a divide function
 function divide(val1, val2) {
     return val1 / val2;
 };
-
 // create add function
 function add(val1, val2) {
     return val1 + val2;
-}
-
+};
 // create minus function
 function minus(val1, val2) {
     return val1 - val2;
-}
-
+};
 
 function calculateSection(formula, operator1, operator2, function1, function2) {
-
     for (let i = 0; i < formula.length; i++) {
 
         if (formula[i] === operator1 || formula[i] === operator2) {
@@ -194,9 +193,10 @@ function calculateSection(formula, operator1, operator2, function1, function2) {
         }
     }
     return formula;
-}
+};
 
 function evaluate(formula) {
+    console.log(formula)
     if (!/[0-9]/.test(formula[0])) {
         if (formula[0] == '-') {
             formula[1] = `-${formula[1]}`
@@ -228,76 +228,52 @@ function evaluate(formula) {
     return formula;
 }
 
-function validateDecimalCalculations(val) {
-
-}
-
-
 updateCurrentDisplay();
 updateCurrentFormula();
 
+// ==============================
+// keyboard character entry logic 
+// ==============================
+
+
 function handleKeys(e) {
-    console.log(e.key)
-    let number = "";
-    let operator = "";
-    if (e.keyCode >= 48 && e.keyCode <= 58) {
-        switch (e.keyCode) {
-            case 49:
-                number = '1';
-                break;
-            case 50:
-                number = '2';
-                break;
-            case 51:
-                number = '3';
-                break;
-            case 52:
-                number = '4';
-                break;
-            case 53:
-                number = '5';
-                break;
-            case 54:
-                number = '6';
-                break;
-            case 55:
-                number = '7';
-                break;
-            case 56:
-                number = '8';
-                break;
-            case 57:
-                number = '9';
-                break;
-            case 48:
-                number = '0';
-                break;
-        }
-        enterNumber(number)
+
+    switch (e.key) {
+        case ('1'):
+        case ('2'):
+        case ('3'):
+        case ('4'):
+        case ('5'):
+        case ('6'):
+        case ('7'):
+        case ('8'):
+        case ('9'):
+        case ('0'):
+        case '.':
+            enterNumber(e.key);
+            break;
+
+        case "=":
+            enterOperator(e.key)
+            currentValue = evaluate(currentFormula)
+            updateCurrentDisplay()
+            currentFormula = [currentValue];
+            currentValue = [];
+            currentValueType = 'number';
+            break;
+
+        case '+':
+        case '*':
+        case '/':
+            enterOperator(e.key);
+            break;
+        case '-':
+            enterOperator(e.key);
+            handleSubstract(e.key);
+            break;
     }
-    if (e.keyCode >= 100 && e.keyCode <= 187) {
-        console.log('gaga')
-        switch (e.keyCode) {
-            case 187:
-                operator = '*';
-                break;
-            case 107:
-                operator = '+';
-                break;
-            case 109:
-                operator = '-';
-                break;
-            case 110:
-                operator = '.';
-                break;
-            case 111:
-                operator = '/';
-                break;
-        }
-        enterOperator(operator)
-    }
-}
+};
 
 
 // handle keyboard entry
-document.addEventListener('keyup', handleKeys)
+document.addEventListener('keypress', handleKeys)

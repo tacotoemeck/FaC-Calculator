@@ -2,26 +2,25 @@ body {
     background: #0f0c29;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
-    
+    overflow: hidden;
 }
 
 .container {
     width: 100vw;
     height: 100vh;
-  
+    overflow: hidden;
 }
 
 .calculator {
-    
     margin: auto;
     margin-top: 10vh;
     width: 430px;
     height: 575px;
- 
     display: grid;
     grid-template-columns: 100px 100px 100px 100px;
     grid-template-rows: 80px;
+    grid-column-gap: 10px;
+    grid-row-gap: 15px;
     grid-template-areas: 
     "display display display display"
     "clear clear divide multiply"
@@ -29,8 +28,6 @@ body {
     "four five six add"
     "one two three equals"
     "zero zero decimal equals";
-    grid-column-gap: 10px;
-    grid-row-gap: 15px;
 
     border:10px solid #232526;
     border-radius: 5px;
@@ -42,9 +39,20 @@ body {
     0 22.3px 17.9px rgba(0, 0, 0, 0.072),
     0 41.8px 33.4px rgba(0, 0, 0, 0.086),
     0 100px 80px rgba(0, 0, 0, 0.12)
-
-
 }
+
+@media only screen and (max-width: 430px) {
+    .calculator {
+    margin: 0;
+    width: 90vw;
+    height: 70vh;
+    display: grid;
+    grid-template-columns: 25fr 25fr 25fr 25fr;
+    grid-template-rows: 80px;
+    grid-column-gap: 10px;
+    grid-row-gap: 15px;
+    }
+  }
 
 .calculator button {
     border-radius: 50%;
