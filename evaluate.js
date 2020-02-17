@@ -1,6 +1,7 @@
 const buttons = document.querySelectorAll('button');
 const numberButtons = document.querySelectorAll('.number');
 const operatorButtons = document.querySelectorAll('.operator');
+const parenthesesButtons = document.querySelectorAll('.parentheses');
 const calculator = document.querySelector('.calculator');
 
 buttons.forEach(button => {
@@ -14,10 +15,18 @@ numberButtons.forEach(button => {
 operatorButtons.forEach(button => {
     button.addEventListener('click', enterOperator)
 });
+parenthesesButtons.forEach(button => {
+    button.addEventListener('click', enterParentheses)
+});
 
 let currentFormula = [];
 let currentValue = [0];
 let currentValueType = 'number';
+
+// parentheses count
+let openParentheses = 0;
+
+
 
 // display functions
 
@@ -36,6 +45,7 @@ function updateCurrentFormula() {
 function clearDisplay() {
     currentFormula = [];
     currentValue = [0];
+    openParentheses = 0;
     currentValueType = 'number';
     updateCurrentDisplay()
     updateCurrentFormula()
@@ -48,10 +58,11 @@ clear.addEventListener('click', clearDisplay);
 // ================
 
 function enterNumber(num) {
+
     if (typeof num == 'object') {
         num = this.innerText;
     }
-    if (currentValue.length == 0) {
+    if (currentValue.length == 0 && currentFormula.length == 0) {
         return;
     }
 
@@ -73,6 +84,8 @@ function enterNumber(num) {
         currentValue == [0];
         return;
     };
+
+
     currentValue += num;
     updateCurrentDisplay();
 
@@ -117,6 +130,43 @@ function enterOperator(operator) {
     updateCurrentDisplay();
 };
 
+function enterParentheses(operator) {
+
+    if (typeof operator == 'object') {
+        operator = this.innerText;
+    }
+    if (operator === '(') {
+
+        if (currentFormula[currentFormula.length - 1] === ')') return;
+
+        if (currentValueType === 'operator') {
+            currentFormula.push(currentValue);
+            currentFormula.push(operator);
+            currentValue = [];
+            currentValueType = 'number';
+            updateCurrentDisplay();
+
+        } else {
+            currentFormula.push(operator);
+        }
+        openParentheses++;
+        updateCurrentFormula();
+        return;
+
+    }
+    if (operator === ')') {
+        if (openParentheses == 0) return;
+        if (currentValueType === 'number') {
+            currentFormula.push(currentValue);
+            currentFormula.push(operator);
+            updateCurrentFormula();
+            currentValue = [];
+            updateCurrentDisplay();
+            openParentheses--;
+        }
+    }
+};
+
 function handleSubstract(operator) {
     if (typeof operator == 'object') {
         operator = this.innerText;
@@ -141,7 +191,6 @@ function handleSubstract(operator) {
         currentValue += operator;
         updateCurrentDisplay();
     };
-
 };
 
 subtract.addEventListener('click', handleSubstract);
@@ -196,7 +245,10 @@ function calculateSection(formula, operator1, operator2, function1, function2) {
 };
 
 function evaluate(formula) {
+    // place parentheses
+    formula = evaluateParetheses(formula);
     console.log(formula)
+
     if (!/[0-9]/.test(formula[0])) {
         if (formula[0] == '-') {
             formula[1] = `-${formula[1]}`
@@ -226,6 +278,50 @@ function evaluate(formula) {
     }
     evaluate(formula)
     return formula;
+}
+
+// ==============================
+// ======formula validation======
+// ==============================
+
+function evaluateParetheses(arr) {
+
+    if (openParentheses > 0) {
+        arr = addMissingParentheses(arr);
+    };
+
+    let opening = 0;
+    let closing = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        if (Array.isArray(arr[i])) {
+            arr[i] = evaluateParetheses(arr[i])
+        }
+        if (arr[i] == '(') {
+            openingIndex = i;
+            opening++;
+        }
+        if (arr[i] == ')') {
+            closing++;
+        }
+        if (opening > 0 && opening == closing) {
+            arr.splice(arr.indexOf('('), i - arr.indexOf('(') + 1, [...arr.slice(arr.indexOf('(') + 1, i)])
+            opening--;
+            closing--;
+        }
+    }
+    if (opening > 0 || arr.includes('(')) evaluateParetheses(arr);
+    return arr;
+}
+
+function addMissingParentheses(arr) {
+    let result = [...arr];
+    for (let i = 0; i <= openParentheses; i++) {
+        console.log(result)
+        result.push(')')
+    }
+    openParentheses = 0;
+    return result;
 }
 
 updateCurrentDisplay();

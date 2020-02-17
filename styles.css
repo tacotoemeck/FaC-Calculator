@@ -56,7 +56,7 @@ body {
   }
 
 .calculator button {
-    border-radius: 50%;
+    border-radius: 5%;
     font-family: 'Roboto', sans-serif;
     font-size: 3vh;
     background: #CB356B;  /* fallback for old browsers */
