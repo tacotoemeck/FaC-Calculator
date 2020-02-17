@@ -23,9 +23,10 @@ body {
     grid-row-gap: 15px;
     grid-template-areas: 
     "display display display display"
-    "clear clear divide multiply"
+    "clear clear left-parentheses right-parentheses"
+    "power divide multiply add"
     "seven eight nine subtract"
-    "four five six add"
+    "four five six equals"
     "one two three equals"
     "zero zero decimal equals";
 
