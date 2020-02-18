@@ -27,7 +27,6 @@ let currentValueType = 'number';
 let openParentheses = 0;
 
 
-
 // display functions
 
 function updateCurrentDisplay() {
@@ -85,10 +84,10 @@ function enterNumber(num) {
         return;
     };
 
+    if (currentFormula[currentFormula.length - 1] === ')') return;
 
     currentValue += num;
     updateCurrentDisplay();
-
 };
 
 function enterOperator(operator) {
@@ -96,6 +95,7 @@ function enterOperator(operator) {
     if (typeof operator == 'object') {
         operator = this.innerText;
     }
+    if (currentFormula[currentFormula.length - 1] === '(' && currentValue.length == 0 && operator !== '-') return;
     if (currentValue == '0' && currentFormula.length == 0) return;
     if (currentValue.length == 0) {
         currentValue = operator;
@@ -136,8 +136,11 @@ function enterParentheses(operator) {
         operator = this.innerText;
     }
     if (operator === '(') {
+        if (updateCurrentFormula.length > 0 && currentValueType === 'number' && currentValue.length === 0) return;
 
-        if (currentFormula[currentFormula.length - 1] === ')') return;
+        if (currentFormula[currentFormula.length - 1] === ')' && currentValueType !== 'operator') {
+            return;
+        };
 
         if (currentValueType === 'operator') {
             currentFormula.push(currentValue);
@@ -247,7 +250,6 @@ function calculateSection(formula, operator1, operator2, function1, function2) {
 function evaluate(formula) {
     // place parentheses
     formula = evaluateParetheses(formula);
-    console.log(formula)
 
     if (!/[0-9]/.test(formula[0])) {
         if (formula[0] == '-') {
@@ -255,10 +257,16 @@ function evaluate(formula) {
         };
         formula.shift();
     }
-    // evaluate formula in a given order 
-    // Please Excuse My Dear Aunt Sally
+    if (Array.isArray(formula[0])) {
+        formula = formula[0]
+    }
+
     // recursion stop
     if (formula.length === 1) return formula;
+
+    // evaluate formula in a given order 
+    // Please Excuse My Dear Aunt Sally
+
     //  1. Parentheses
     if (formula.filter(elem => typeof elem === 'object')) {
         let parenthesesFormula = formula.filter(elem => typeof elem === 'object');
