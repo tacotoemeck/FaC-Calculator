@@ -8,7 +8,7 @@ Vanilla JavaScript Calculator
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ## Installing
-Simpy downloand the repo and run index.html to open the calculator in your borwser
+Simpy download the repo and run index.html to open the calculator in your browser
 
 ## Built With
 * Vanilla JavaScript
@@ -16,7 +16,7 @@ Simpy downloand the repo and run index.html to open the calculator in your borws
 * CSS
 
 ## Author
-Tom Wagner - @tacotoemmeck
+Tom Wagner - @tacotoemeck
 
 ## License
 This project is licensed under the MIT License.
