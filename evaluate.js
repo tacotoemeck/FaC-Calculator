@@ -61,8 +61,24 @@ function enterNumber(num) {
     if (typeof num == 'object') {
         num = this.innerText;
     }
-    if (currentValue.length == 0 && currentFormula.length == 0) {
-        return;
+
+    if (currentFormula.length == 1 && currentValueType == 'number' && currentFormula[currentFormula.length - 1] !== '(') return;
+    console.log('here')
+    if (currentValue.length == 0 && currentFormula.length == 0) return;
+    if (num == '.') {
+        if (currentValue == '0') {
+            currentValue = '0.';
+            updateCurrentDisplay();
+            return;
+        }
+        if (currentValueType == 'operator') {
+            currentFormula.push(currentValue);
+            updateCurrentFormula()
+            currentValue = '0.';
+            updateCurrentDisplay()
+            currentValueType = 'number';
+            return;
+        }
     }
 
     if (currentValue == '0') {
@@ -76,6 +92,7 @@ function enterNumber(num) {
         currentValue = [];
         currentValueType = 'number';
     }
+
     if (num == '.' && currentValue.includes('.')) {
         return;
     }
@@ -98,24 +115,23 @@ function enterOperator(operator) {
     if (currentFormula[currentFormula.length - 1] === '(' && currentValue.length == 0 && operator !== '-') return;
     if (currentValue == '0' && currentFormula.length == 0) return;
     if (currentValue.length == 0) {
-        currentValue = operator;
+        updateCurrentValue(operator);
         currentValueType = 'operator'
-        updateCurrentDisplay()
         return;
     }
+    if (currentValue == '0.') return;
+
     if (currentValue == '-' && operator == '-') return;
 
     if (currentValueType == 'number' && currentValue == '-') {
         currentFormula.pop()
         updateCurrentFormula()
-        currentValue = operator;
-        updateCurrentDisplay();
+        updateCurrentValue(operator);
         currentValueType = 'operator';
         return;
     }
     if (currentValueType == 'operator') {
-        currentValue = operator;
-        updateCurrentDisplay()
+        updateCurrentValue(operator);
         return;
     };
 
@@ -125,9 +141,13 @@ function enterOperator(operator) {
         currentValue = [];
         currentValueType = 'operator';
     }
-
     currentValue += operator;
     updateCurrentDisplay();
+};
+
+function updateCurrentValue(op) {
+    currentValue = op;
+    updateCurrentDisplay()
 };
 
 function enterParentheses(operator) {
@@ -136,39 +156,37 @@ function enterParentheses(operator) {
         operator = this.innerText;
     }
     if (operator === '(') {
-        if (updateCurrentFormula.length > 0 && currentValueType === 'number' && currentValue.length === 0) return;
+        if ((updateCurrentFormula.length > 0 && currentValueType === 'number' && currentValue.length === 0) || currentValue.length === 0) return;
 
         if (currentFormula[currentFormula.length - 1] === ')' && currentValueType !== 'operator') {
             return;
         };
-
         if (currentValueType === 'operator') {
-            currentFormula.push(currentValue);
-            currentFormula.push(operator);
-            currentValue = [];
+            parenthesesHelper(operator, currentValue);
             currentValueType = 'number';
-            updateCurrentDisplay();
-
         } else {
             currentFormula.push(operator);
         }
         openParentheses++;
         updateCurrentFormula();
         return;
-
     }
     if (operator === ')') {
+        if (currentFormula[currentFormula.length - 1] === '(') return;
         if (openParentheses == 0) return;
         if (currentValueType === 'number') {
-            currentFormula.push(currentValue);
-            currentFormula.push(operator);
+            parenthesesHelper(operator, currentValue);
             updateCurrentFormula();
-            currentValue = [];
-            updateCurrentDisplay();
             openParentheses--;
         }
     }
 };
+function parenthesesHelper(op, val) {
+    currentFormula.push(val);
+    currentFormula.push(op);
+    currentValue = [];
+    updateCurrentDisplay();
+}
 
 function handleSubstract(operator) {
     if (typeof operator == 'object') {
@@ -196,6 +214,8 @@ function handleSubstract(operator) {
     };
 };
 
+
+
 subtract.addEventListener('click', handleSubstract);
 
 equals.addEventListener('click', function () {
@@ -207,7 +227,7 @@ equals.addEventListener('click', function () {
 });
 
 // ==================
-// ====arythmetic====
+// ====arythmetics====
 // ==================
 
 // create a handleExponents function
