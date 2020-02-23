@@ -345,7 +345,6 @@ function evaluateParetheses(arr) {
 function addMissingParentheses(arr) {
     let result = [...arr];
     for (let i = 0; i <= openParentheses; i++) {
-        console.log(result)
         result.push(')')
     }
     openParentheses = 0;
@@ -389,11 +388,16 @@ function handleKeys(e) {
         case '+':
         case '*':
         case '/':
+        case '^':
             enterOperator(e.key);
             break;
         case '-':
             enterOperator(e.key);
             handleSubstract(e.key);
+            break;
+        case '(':
+        case ')':
+            enterParentheses(e.key);
             break;
     }
 };
