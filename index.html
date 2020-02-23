@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Vanilla JS Calculator</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='styles.css'>
+    <link href="https://fonts.googleapis.com/css?family=Orbitron:700|Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/794b746eef.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="calculator">
+            <div class="display">
+                <div id="formulaDisplay" role="display formula" aria-role="current formula"></div>
+                <div id="display" role="display current value" aria-role="current value"></div>
+            </div>
+            <button id="clear" aria-buttonvalue="AC">AC</button>
+            <button id="left-parentheses" class="parentheses" aria-buttonvalue="left parentheses">(</button>
+            <button id="right-parentheses" class="parentheses" aria-buttonvalue="right parentheses">)</button>
+            <button id="power" class="operator" aria-buttonvalue="exponent">^</button>
+            <button id="divide" class="operator" aria-buttonvalue="divide">/</button>
+            <button id="multiply" class="operator" aria-buttonvalue="multiply">*</button>
+            <button id="subtract" class="" aria-buttonvalue="subtract">-</button>
+            <button id="decimal" class="number" aria-buttonvalue="decimal">.</button>
+            <button id="equals" class="operator" aria-buttonvalue="equals">=</button>
+            <button id="add" class="operator" aria-buttonvalue="plus">+</button>
+            <button id="zero" class="number" aria-buttonvalue="zero">0</button>
+            <button id="one" class="number" aria-buttonvalue="one">1</button>
+            <button id="two" class="number" aria-buttonvalue="two">2</button>
+            <button id="three" class="number" aria-buttonvalue="three">3</button>
+            <button id="four" class="number" aria-buttonvalue="four">4</button>
+            <button id="five" class="number" aria-buttonvalue="five">5</button>
+            <button id="six" class="number" aria-buttonvalue="six">6</button>
+            <button id="seven" class="number" aria-buttonvalue="seven">7</button>
+            <button id="eight" class="number" aria-buttonvalue="eight">8</button>
+            <button id="nine" class="number" aria-buttonvalue="nine">9</button>
+
+        </div>
+        <div class="footerContent">
+
+            <a href="mailto: wagner.tomek@gmail.com">
+                <h1 class="footerEmail">TomW</h1>
+            </a>
+            <div class="contactlinks">
+                <a href="https://twitter.com/TomaszWagner1" class="footerLinks"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/in/tom-wagner-29126931/" class="footerLinks"><i
+                        class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/tacotoemeck" class="footerLinks"><i class="fab fa-github"></i></a>
+                <a href="https://codepen.io/tacotomek" class="footerLinks"><i class="fab fa-codepen"></i></a>
+                <a href="https://codepen.io/tacotomek" class="footerLinks"><i class="fab fa-free-code-camp"></i></i></a>
+            </div>
+        </div>
+    </div>
+
+
+    <script src='evaluate.js'></script>
+</body>
+
+</html>
