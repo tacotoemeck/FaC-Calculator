@@ -56,14 +56,17 @@ clear.addEventListener('click', clearDisplay);
 // button functions
 // ================
 
-function enterNumber(num) {
+function enterNumber(event) {
 
-    if (typeof num == 'object') {
+    // define source of the event ( mouse or keypad )
+    if (typeof event == 'object') {
         num = this.innerText;
+    }else {
+        num = event;
     }
 
     if (currentFormula.length == 1 && currentValueType == 'number' && currentFormula[currentFormula.length - 1] !== '(') return;
-    console.log('here')
+
     if (currentValue.length == 0 && currentFormula.length == 0) return;
     if (num == '.') {
         if (currentValue == '0') {
@@ -107,11 +110,14 @@ function enterNumber(num) {
     updateCurrentDisplay();
 };
 
-function enterOperator(operator) {
-
+function enterOperator(event) {
+    // define source of the event ( mouse or keypad )
     if (typeof operator == 'object') {
         operator = this.innerText;
+    } else {
+        operator = event;
     }
+
     if (currentFormula[currentFormula.length - 1] === '(' && currentValue.length == 0 && operator !== '-') return;
     if (currentValue == '0' && currentFormula.length == 0) return;
     if (currentValue.length == 0) {
