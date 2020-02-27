@@ -165,7 +165,6 @@ button:hover {
     animation: pulse 2s infinite;
     
   }
-<<<<<<< HEAD
 
   .hidden-label:not(:focus):not(:active) {
     clip: rect(0 0 0 0); 
@@ -176,8 +175,6 @@ button:hover {
     white-space: nowrap; 
     width: 1px;
   }
-=======
->>>>>>> 1a49695b2980e0833e1bf0a9a631d39c95d44a73
     
   @keyframes pulse {
     0% {
