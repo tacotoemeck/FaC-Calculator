@@ -156,10 +156,12 @@ function updateCurrentValue(op) {
     updateCurrentDisplay()
 };
 
-function enterParentheses(operator) {
-
+function enterParentheses(event) {
+    // define source of the event ( mouse or keypad )
     if (typeof operator == 'object') {
         operator = this.innerText;
+    } else {
+        operator = event;
     }
     if (operator === '(') {
         if ((updateCurrentFormula.length > 0 && currentValueType === 'number' && currentValue.length === 0) || currentValue.length === 0) return;
@@ -195,9 +197,12 @@ function parenthesesHelper(op, val) {
 }
 
 function handleSubstract(operator) {
-    if (typeof operator == 'object') {
-        operator = this.innerText;
-    }
+        // define source of the event ( mouse or keypad )
+        if (typeof operator == 'object') {
+            operator = this.innerText;
+        } else {
+            operator = event;
+        }
     if (currentValue == '-' && operator == '-') return;
 
     if (currentValueType == 'operator' && operator == '-' || currentValue == 'empty') {
