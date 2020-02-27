@@ -55,6 +55,72 @@ body {
     }
   }
 
+  /* ======================== */
+  /* GRID */
+  /* ======================== */
+#clear {
+    grid-area: 'clear';
+}
+#left-parentheses {
+    grid-area: 'left-parentheses';
+}
+#right-parentheses {
+    grid-area: 'right-parentheses';
+}
+#power {
+    grid-area: 'power';
+}
+#divide {
+    grid-area: 'divide';
+}
+#multiply {
+    grid-area: 'multiply';
+}
+#subtract {
+    grid-area: 'subtract';
+}
+#decimal {
+    grid-area: 'decimal';
+}
+#equals {
+    grid-area: 'equals';
+}
+#add {
+    grid-area: 'add';
+}
+#zero {
+    grid-area: 'zero';
+}
+#one {
+    grid-area: 'one';
+}
+#two {
+    grid-area: 'two';
+}
+#three {
+    grid-area: 'three';
+}
+#four {
+    grid-area: 'four';
+}
+#five {
+    grid-area: 'five';
+}
+#six {
+    grid-area: 'six';
+}
+#seven {
+    grid-area: 'seven';
+}
+#eight {
+    grid-area: 'eight';
+}
+#nine {
+    grid-area: 'nine';
+}
+/* ================== */
+
+
 .calculator button {
     border-radius: 5%;
     font-family: 'Roboto', sans-serif;

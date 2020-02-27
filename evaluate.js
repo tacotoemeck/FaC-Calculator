@@ -4,10 +4,6 @@ const operatorButtons = document.querySelectorAll('.operator');
 const parenthesesButtons = document.querySelectorAll('.parentheses');
 const calculator = document.querySelector('.calculator');
 
-buttons.forEach(button => {
-    button.style.gridArea = button.id;
-});
-
 numberButtons.forEach(button => {
     button.addEventListener('click', enterNumber)
 });
@@ -159,8 +155,10 @@ function updateCurrentValue(op) {
 function enterParentheses(event) {
     // define source of the event ( mouse or keypad )
     if (typeof operator == 'object') {
+        // event triggered by mouse click
         operator = this.innerText;
     } else {
+        //event triggered by a keyboard click
         operator = event;
     }
     if (operator === '(') {
