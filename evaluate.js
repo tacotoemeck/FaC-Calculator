@@ -108,7 +108,7 @@ function enterNumber(event) {
 
 function enterOperator(event) {
     // define source of the event ( mouse or keypad )
-    if (typeof operator == 'object') {
+    if (typeof event == 'object') {
         operator = this.innerText;
     } else {
         operator = event;
@@ -154,7 +154,7 @@ function updateCurrentValue(op) {
 
 function enterParentheses(event) {
     // define source of the event ( mouse or keypad )
-    if (typeof operator == 'object') {
+    if (typeof event == 'object') {
         // event triggered by mouse click
         operator = this.innerText;
     } else {
@@ -196,7 +196,7 @@ function parenthesesHelper(op, val) {
 
 function handleSubstract(operator) {
         // define source of the event ( mouse or keypad )
-        if (typeof operator == 'object') {
+        if (typeof event == 'object') {
             operator = this.innerText;
         } else {
             operator = event;
