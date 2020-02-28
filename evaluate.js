@@ -5,14 +5,14 @@ const parenthesesButtons = document.querySelectorAll('.parentheses');
 const calculator = document.querySelector('.calculator');
 
 numberButtons.forEach(button => {
-    button.addEventListener('click', enterNumber)
+    button.addEventListener('click', enterNumberClick)
 });
 
 operatorButtons.forEach(button => {
-    button.addEventListener('click', enterOperator)
+    button.addEventListener('click', enterOperatorClick)
 });
 parenthesesButtons.forEach(button => {
-    button.addEventListener('click', enterParentheses)
+    button.addEventListener('click', handleParenthesesClick)
 });
 
 let currentFormula = [];
@@ -52,14 +52,7 @@ clear.addEventListener('click', clearDisplay);
 // button functions
 // ================
 
-function enterNumber(event) {
-
-    // define source of the event ( mouse or keypad )
-    if (typeof event == 'object') {
-        num = this.innerText;
-    }else {
-        num = event;
-    }
+function enterNumber(num) {
 
     if (currentFormula.length == 1 && currentValueType == 'number' && currentFormula[currentFormula.length - 1] !== '(') return;
 
@@ -106,13 +99,11 @@ function enterNumber(event) {
     updateCurrentDisplay();
 };
 
-function enterOperator(event) {
-    // define source of the event ( mouse or keypad )
-    if (typeof event == 'object') {
-        operator = this.innerText;
-    } else {
-        operator = event;
-    }
+function enterNumberClick(){
+    enterNumber(this.innerText);
+}
+
+function enterOperator(operator) {
 
     if (currentFormula[currentFormula.length - 1] === '(' && currentValue.length == 0 && operator !== '-') return;
     if (currentValue == '0' && currentFormula.length == 0) return;
@@ -147,20 +138,16 @@ function enterOperator(event) {
     updateCurrentDisplay();
 };
 
+function enterOperatorClick(){
+    enterOperator(this.innerText);
+};
+
 function updateCurrentValue(op) {
     currentValue = op;
     updateCurrentDisplay()
 };
 
-function enterParentheses(event) {
-    // define source of the event ( mouse or keypad )
-    if (typeof event == 'object') {
-        // event triggered by mouse click
-        operator = this.innerText;
-    } else {
-        //event triggered by a keyboard click
-        operator = event;
-    }
+function enterParentheses(operator) {
     if (operator === '(') {
         if ((updateCurrentFormula.length > 0 && currentValueType === 'number' && currentValue.length === 0) || currentValue.length === 0) return;
 
@@ -192,15 +179,14 @@ function parenthesesHelper(op, val) {
     currentFormula.push(op);
     currentValue = [];
     updateCurrentDisplay();
-}
+};
+
+function handleParenthesesClick() {
+    enterParentheses(this.innerText);
+  }
 
 function handleSubstract(operator) {
-        // define source of the event ( mouse or keypad )
-        if (typeof event == 'object') {
-            operator = this.innerText;
-        } else {
-            operator = event;
-        }
+
     if (currentValue == '-' && operator == '-') return;
 
     if (currentValueType == 'operator' && operator == '-' || currentValue == 'empty') {
@@ -223,12 +209,15 @@ function handleSubstract(operator) {
     };
 };
 
+function handleSubstractClick(){
+    handleSubstract(this.innerText);
+};
 
 
-subtract.addEventListener('click', handleSubstract);
+subtract.addEventListener('click', handleSubstractClick);
 
 equals.addEventListener('click', function () {
-    currentValue = evaluate(currentFormula)
+    currentValue = evaluate(currentFormula);
     updateCurrentDisplay()
     currentFormula = [currentValue];
     currentValue = [];
@@ -279,6 +268,7 @@ function calculateSection(formula, operator1, operator2, function1, function2) {
 function evaluate(formula) {
     // place parentheses
     formula = evaluateParetheses(formula);
+    console.log(formula)
 
     if (!/[0-9]/.test(formula[0])) {
         if (formula[0] == '-') {
@@ -286,9 +276,10 @@ function evaluate(formula) {
         };
         formula.shift();
     }
-    if (Array.isArray(formula[0])) {
-        formula = formula[0]
-    }
+    // if (Array.isArray(formula[0])) {
+    //     console.log('here')
+    //     formula = formula[0]
+    // }
 
     // recursion stop
     if (formula.length === 1) return formula;
@@ -299,7 +290,7 @@ function evaluate(formula) {
     //  1. Parentheses
     if (formula.filter(elem => typeof elem === 'object')) {
         let parenthesesFormula = formula.filter(elem => typeof elem === 'object');
-        parenthesesFormula.forEach(arr => arr.length > 1 ? evaluate(arr) : arr.toString())
+        parenthesesFormula.forEach(arr => arr.length > 1 ? evaluate(arr) : arr.toString());
     }
     // 2. Exponents
     if (formula.includes('^')) {
