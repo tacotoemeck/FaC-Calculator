@@ -54,16 +54,16 @@ clear.addEventListener('click', clearDisplay);
 
 function enterNumber(num) {
 
-    if (currentFormula.length == 1 && currentValueType == 'number' && currentFormula[currentFormula.length - 1] !== '(') return;
+    if (currentFormula.length === 1 && currentValueType === 'number' && currentFormula[currentFormula.length - 1] !== '(') return;
 
     if (currentValue.length == 0 && currentFormula.length == 0) return;
-    if (num == '.') {
+    if (num === '.') {
         if (currentValue == '0') {
             currentValue = '0.';
             updateCurrentDisplay();
             return;
         }
-        if (currentValueType == 'operator') {
+        if (currentValueType === 'operator') {
             currentFormula.push(currentValue);
             updateCurrentFormula()
             currentValue = '0.';
@@ -85,7 +85,7 @@ function enterNumber(num) {
         currentValueType = 'number';
     }
 
-    if (num == '.' && currentValue.includes('.')) {
+    if (num === '.' && currentValue.includes('.')) {
         return;
     }
     if (num == '0' && currentValue == '0') {
@@ -114,16 +114,16 @@ function enterOperator(operator) {
     }
     if (currentValue == '0.') return;
 
-    if (currentValue == '-' && operator == '-') return;
+    if (currentValue === '-' && operator === '-') return;
 
-    if (currentValueType == 'number' && currentValue == '-') {
+    if (currentValueType === 'number' && currentValue === '-') {
         currentFormula.pop()
         updateCurrentFormula()
         updateCurrentValue(operator);
         currentValueType = 'operator';
         return;
     }
-    if (currentValueType == 'operator') {
+    if (currentValueType === 'operator') {
         updateCurrentValue(operator);
         return;
     };
@@ -187,9 +187,9 @@ function handleParenthesesClick() {
 
 function handleSubstract(operator) {
 
-    if (currentValue == '-' && operator == '-') return;
+    if (currentValue === '-' && operator === '-') return;
 
-    if (currentValueType == 'operator' && operator == '-' || currentValue == 'empty') {
+    if (currentValueType === 'operator' && operator === '-' || currentValue === 'empty') {
         currentValue = currentValue.split('');
         currentFormula.push(currentValue[0]);
         updateCurrentFormula();
@@ -199,7 +199,7 @@ function handleSubstract(operator) {
         return;
     };
 
-    if (currentValueType == 'number') {
+    if (currentValueType === 'number') {
         currentValue.length > 0 && currentFormula.push(currentValue);
         updateCurrentFormula();
         currentValue = [];
@@ -271,15 +271,11 @@ function evaluate(formula) {
     console.log(formula)
 
     if (!/[0-9]/.test(formula[0])) {
-        if (formula[0] == '-') {
+        if (formula[0] === '-') {
             formula[1] = `-${formula[1]}`
         };
         formula.shift();
     }
-    // if (Array.isArray(formula[0])) {
-    //     console.log('here')
-    //     formula = formula[0]
-    // }
 
     // recursion stop
     if (formula.length === 1) return formula;
@@ -325,11 +321,11 @@ function evaluateParetheses(arr) {
         if (Array.isArray(arr[i])) {
             arr[i] = evaluateParetheses(arr[i])
         }
-        if (arr[i] == '(') {
+        if (arr[i] === '(') {
             openingIndex = i;
             opening++;
         }
-        if (arr[i] == ')') {
+        if (arr[i] === ')') {
             closing++;
         }
         if (opening > 0 && opening == closing) {
