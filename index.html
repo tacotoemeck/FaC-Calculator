@@ -1,64 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Vanilla JS Calculator</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='styles.css'>
-    <link href="https://fonts.googleapis.com/css?family=Orbitron:700|Roboto&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/794b746eef.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Orbitron:700|Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/794b746eef.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="container">
-        <div class="calculator">
-            <div class="display">
-                <div id="formulaDisplay" ></div>
-                <div id="display" aria-live="rude"></div>
-            </div>
-            <button id="clear">AC</button>
-            <button id="left-parentheses" class="parentheses" >(</button>
-            <button id="right-parentheses" class="parentheses" >)</button>
-            <button id="power" class="operator" >^</button>
-            <button id="divide" class="operator" >/</button>
-            <button id="multiply" class="operator" >*</button>
-            <button id="subtract" class="" >-</button>
-            <button id="decimal" class="number" >.</button>
-            <button id="equals" class="operator" >=</button>
-            <button id="add" class="operator" >+</button>
-            <button id="zero" class="number" >0</button>
-            <button id="one" class="number" >1</button>
-            <button id="two" class="number" >2</button>
-            <button id="three" class="number" >3</button>
-            <button id="four" class="number" >4</button>
-            <button id="five" class="number" >5</button>
-            <button id="six" class="number" >6</button>
-            <button id="seven" class="number" >7</button>
-            <button id="eight" class="number">8</button>
-            <button id="nine" aria-live="polite" class="number">9</button>
-
+      <div class="calculator">
+        <div class="display">
+          <div id="formulaDisplay"></div>
+          <div id="display" aria-live="rude"></div>
         </div>
-        <div class="footerContent">
-
-            <a href="mailto: wagner.tomek@gmail.com">
-                <h1 class="footerEmail">TomW</h1>
-            </a>
-            <div class="contactlinks">
-                <a href="https://twitter.com/TomaszWagner1" class="footerLinks" aria-label="Link to author's Twitter profile"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.linkedin.com/in/tom-wagner-29126931/" class="footerLinks" aria-label="Link to author's LinkedIn profile"><i
-                        class="fab fa-linkedin-in"></i></a>
-                <a href="https://github.com/tacotoemeck" class="footerLinks" aria-label="Link to author's GitHub profile"><i class="fab fa-github"></i></a>
-                <a href="https://codepen.io/tacotomek" class="footerLinks"><i class="fab fa-codepen" aria-label="Link to author's codepen profile"></i></a>
-                <a href="https://www.freecodecamp.org/tacotomek" class="footerLinks" aria-label="Link to author's FreeCodeCamp profile"><i class="fab fa-free-code-camp"></i></a>
-            </div>
+        <button id="clear">AC</button>
+        <button id="left-parentheses" class="parentheses">(</button>
+        <button id="right-parentheses" class="parentheses">)</button>
+        <button id="power" class="operator">^</button>
+        <button id="divide" class="operator">/</button>
+        <button id="multiply" class="operator">*</button>
+        <button id="subtract" class="">-</button>
+        <button id="decimal" class="number">.</button>
+        <button id="equals" class="operator">=</button>
+        <button id="add" class="operator">+</button>
+        <button id="zero" class="number">0</button>
+        <button id="one" class="number">1</button>
+        <button id="two" class="number">2</button>
+        <button id="three" class="number">3</button>
+        <button id="four" class="number">4</button>
+        <button id="five" class="number">5</button>
+        <button id="six" class="number">6</button>
+        <button id="seven" class="number">7</button>
+        <button id="eight" class="number">8</button>
+        <button id="nine" aria-live="polite" class="number">9</button>
+      </div>
+      <div class="footerContent">
+        <a href="mailto: wagner.tomek@gmail.com">
+          <h1 class="footerEmail">TomW</h1>
+        </a>
+        <div class="contactlinks">
+          <a
+            href="https://twitter.com/TomaszWagner1"
+            class="footerLinks"
+            aria-label="Link to author's Twitter profile"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a
+            href="https://www.linkedin.com/in/tom-wagner-29126931/"
+            class="footerLinks"
+            aria-label="Link to author's LinkedIn profile"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+          <a
+            href="https://github.com/tacotoemeck"
+            class="footerLinks"
+            aria-label="Link to author's GitHub profile"
+            ><i class="fab fa-github"></i
+          ></a>
+          <a href="https://codepen.io/tacotomek" class="footerLinks"
+            ><i
+              class="fab fa-codepen"
+              aria-label="Link to author's codepen profile"
+            ></i
+          ></a>
+          <a
+            href="https://www.freecodecamp.org/tacotomek"
+            class="footerLinks"
+            aria-label="Link to author's FreeCodeCamp profile"
+            ><i class="fab fa-free-code-camp"></i
+          ></a>
         </div>
+      </div>
     </div>
 
-
-    <script src='evaluate.js'></script>
-</body>
-
+    <script src="evaluate.js"></script>
+    <script src="tests/test-helper.js"></script>
+    <script src="tests/index.test.js"></script>
+  </body>
 </html>
